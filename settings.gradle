@@ -1,0 +1,2 @@
+rootProject.name='Datacell'
+include ':sampleapp'
