@@ -1,2 +1,3 @@
 rootProject.name='Datacell'
 include ':sampleapp'
+include ':datacell'
