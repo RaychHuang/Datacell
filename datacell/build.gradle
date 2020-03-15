@@ -9,3 +9,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation libraries.rxjava
 }
+
+apply from: 'publish.gradle'

@@ -1,0 +1,55 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+// Define package info
+def mGroup = 'com.utopia.datacell'
+def mArtifactId = 'datacell'
+def mVersion = major + "." + minor + "." + patch
+
+// Load Bintray credentials
+def properties = new Properties()
+properties.load(new FileInputStream("bintray.properties"))
+def mUser = properties.getProperty("user")
+def mApiKey = properties.getProperty("apikey")
+def mPkgRepo = 'utopia'
+def mPkgName = 'datacell'
+
+println("mGroup: " + mGroup + ", mArtifactId: " + mArtifactId + ", mVersion: " + mVersion + ".")
+println("mUser: " + mUser + ", mApiKey: " + mApiKey + ".")
+println("mPkgRepo: " + mPkgRepo + ", mPkgName: " + mPkgName + ".")
+
+group mGroup
+version mVersion
+
+publishing {
+    publications {
+        Production(MavenPublication) {
+            from components.java
+            groupId mGroup
+            artifactId mArtifactId
+            version mVersion
+        }
+    }
+}
+
+bintray {
+    user = mUser
+    key = mApiKey
+    publications = ['Production']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = mPkgRepo
+        name = mPkgName
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/RaychHuang/FirstPublish.git'
+        description = "It's an awesome lib"
+        publicDownloadNumbers = true
+        version {
+            name = mVersion
+            desc = "Optional desc"
+            vcsTag = "Optional vcsTag"
+            released = new Date()
+        }
+    }
+}
